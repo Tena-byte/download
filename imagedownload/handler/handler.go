@@ -15,10 +15,18 @@ func Home(w http.ResponseWriter, r *http.Request) {
 	<!DOCTYPE html>
 	<html>
 	<body>
-		<form action="/download">
-        	<input type="text" name="imageUrl" placeholder="enter image link">
+		<form id="form" action="/download">
+        	<input type="text" name="imageUrl" id="imageId" placeholder="enter image link">
         	<button type="submit" >Download Image</button>
     	</form>
+
+		<script>
+			document.getElementById('form').addEventListener('submit', function() {
+				setTimeout(() => {
+					document.getElementById('imageId').value = '';
+				}, 100);
+			});
+		</script>
 	</body>
 	</html>
 	`)
