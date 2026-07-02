@@ -20,13 +20,6 @@ func Home(w http.ResponseWriter, r *http.Request) {
         	<button type="submit" >Download Image</button>
     	</form>
 
-		<script>
-			document.getElementById('form').addEventListener('submit', function() {
-				setTimeout(() => {
-					document.getElementById('imageId').value = '';
-				}, 100);
-			});
-		</script>
 	</body>
 	</html>
 	`)
