@@ -4,11 +4,8 @@ import (
 	"asciiweb/handler"
 	"log"
 	"net/http"
+	"os"
 )
-
-
-
-
 
 func main() {
 
@@ -17,9 +14,14 @@ func main() {
 	mux.HandleFunc("/", handler.Home)
 	mux.HandleFunc("/download", handler.ImageDownload)
 
-	log.Println("Server is running on http://localhost:7000")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "7000" // fallback for local dev
+	}
 
-	if err := http.ListenAndServe(":7000", mux); err != nil{
-		log.Fatal("Failed to start server")
+	log.Println("Server is running on port " + port)
+
+	if err := http.ListenAndServe("0.0.0.0:"+port, mux); err != nil {
+		log.Fatal("Failed to start server: " + err.Error())
 	}
 }
