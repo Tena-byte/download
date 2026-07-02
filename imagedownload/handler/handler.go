@@ -64,6 +64,8 @@ func ImageDownload(w http.ResponseWriter, r *http.Request) {
 
 	io.Copy(w, data.Body)
 
+	imageUrl = ""
+	
 
 }
 
