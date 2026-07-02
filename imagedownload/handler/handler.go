@@ -26,47 +26,41 @@ func Home(w http.ResponseWriter, r *http.Request) {
 
 func ImageDownload(w http.ResponseWriter, r *http.Request) {
 
-
 	if err := r.ParseForm(); err != nil {
 		http.Error(w, "Form not valid", 405)
 		return
 	}
 	imageUrl := r.Form.Get("imageUrl")
 
-	if imageUrl == ""{
+	if imageUrl == "" {
 		http.Error(w, "Image Url can not be empty", 400)
 		return
 	}
 
-	 parsedURL, err := url.Parse(imageUrl); 
-	 if err != nil{
+	parsedURL, err := url.Parse(imageUrl)
+	if err != nil {
 		http.Error(w, err.Error(), 400)
 		return
 	}
 
 	imageName := path.Base(parsedURL.Path)
 
-	if imageName == "" || imageName == "/" || imageName == "."{
+	if imageName == "" || imageName == "/" || imageName == "." {
 		imageName = "downloadedImage.jpg"
 	}
 
-	data, err := http.Get(imageUrl)
-	ctype := data.Header.Get("Content-Type")
+	resp, err := http.Get(imageUrl)
+	ctype := resp.Header.Get("Content-Type")
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	defer data.Body.Close()
+	defer resp.Body.Close()
 
 	w.Header().Set("Content-Type", ctype)
-	w.Header().Set("Content-Disposition", "attachment; filename=\""+ imageName+"\"")
+	w.Header().Set("Content-Disposition", "attachment; filename=\""+imageName+"\"")
 
-	io.Copy(w, data.Body)
-
-	imageUrl = ""
-	
+	io.Copy(w, resp.Body)
 
 }
-
-
