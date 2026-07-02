@@ -16,7 +16,7 @@ func main() {
 
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "7000" // fallback for local dev
+		port = "7000"
 	}
 
 	log.Println("Server is running on port " + port)
